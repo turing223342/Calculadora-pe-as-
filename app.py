@@ -1,3 +1,9 @@
+import streamlit as st
+
+st.set_page_config(page_title="Calculadora de Peças", page_icon="💰")
+st.title("💰 Calculadora de Peças")
+
+# Controla se já calculou ou não
 if 'calculado' not in st.session_state:
     st.session_state.calculado = False
 
@@ -9,7 +15,7 @@ if not st.session_state.calculado:
     sh = st.number_input("Quantas shorts você fez?", min_value=0, step=1, value=0)
     
     if st.button("Calcular Total", use_container_width=True, type="primary"):
-        # Salva só na hora do clique, quando os valores já existem
+        # Salva os valores só quando clica, pra pegar o valor atualizado dos inputs
         st.session_state.c = c
         st.session_state.j = j
         st.session_state.CR = CR
@@ -25,15 +31,10 @@ else:
     sh = st.session_state.sh
     
     total = c*0.40 + j*0.50 + CR*0.50 + sh*0.40
+    total_pecas = c + j + CR + sh
     
-    st.success(f"*Valor total a receber: R$ {total:.2f}*")
+    st.info(f"**Total de peças: {total_pecas}**")
+    st.success(f"**Valor total a receber: R$ {total:.2f}**")
     
     with st.expander("Ver detalhes"):
-        st.write(f"Calças: {c} x R$ 0,40 = R$ {c*0.40:.2f}")
-        st.write(f"Jaquetas: {j} x R$ 0,50 = R$ {j*0.50:.2f}") 
-        st.write(f"Rasgadas: {CR} x R$ 0,50 = R$ {CR*0.50:.2f}")
-        st.write(f"Shorts: {sh} x R$ 0,40 = R$ {sh*0.40:.2f}")
-    
-    if st.button("Fazer novo cálculo", use_container_width=True):
-        st.session_state.calculado = False
-        st.rerun()
+        st.write(f
